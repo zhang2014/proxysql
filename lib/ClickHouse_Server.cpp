@@ -414,13 +414,13 @@ pthread_mutex_t users_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 #define ADMIN_SQLITE_TABLE_MYSQL_COLLATIONS "CREATE TABLE mysql_collations (Id INTEGER NOT NULL PRIMARY KEY , Collation VARCHAR NOT NULL , Charset VARCHAR NOT NULL , `Default` VARCHAR NOT NULL)"
 
-#define ADMIN_SQLITE_TABLE_SCHEDULER "CREATE TABLE scheduler (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL , active INT CHECK (active IN (0,1)) NOT NULL DEFAULT 1 , interval_ms INTEGER CHECK (interval_ms>=100 AND interval_ms<=100000000) NOT NULL , filename VARCHAR NOT NULL , arg1 VARCHAR , arg2 VARCHAR , arg3 VARCHAR , arg4 VARCHAR , arg5 VARCHAR , comment VARCHAR NOT NULL DEFAULT '')" 
+#define ADMIN_SQLITE_TABLE_SCHEDULER "CREATE TABLE scheduler (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL , active INT CHECK (active IN (0,1)) NOT NULL DEFAULT 1 , interval_ms INTEGER CHECK (interval_ms>=100 AND interval_ms<=100000000) NOT NULL , filename VARCHAR NOT NULL , arg1 VARCHAR , arg2 VARCHAR , arg3 VARCHAR , arg4 VARCHAR , arg5 VARCHAR , comment VARCHAR NOT NULL DEFAULT '')"
 
 #define ADMIN_SQLITE_TABLE_SCHEDULER_V1_2_0 "CREATE TABLE scheduler (id INTEGER NOT NULL , interval_ms INTEGER CHECK (interval_ms>=100 AND interval_ms<=100000000) NOT NULL , filename VARCHAR NOT NULL , arg1 VARCHAR , arg2 VARCHAR , arg3 VARCHAR , arg4 VARCHAR , arg5 VARCHAR , PRIMARY KEY(id))"
 
-#define ADMIN_SQLITE_TABLE_SCHEDULER_V1_2_2a "CREATE TABLE scheduler (id INTEGER NOT NULL , interval_ms INTEGER CHECK (interval_ms>=100 AND interval_ms<=100000000) NOT NULL , filename VARCHAR NOT NULL , arg1 VARCHAR , arg2 VARCHAR , arg3 VARCHAR , arg4 VARCHAR , arg5 VARCHAR , comment VARCHAR NOT NULL DEFAULT '' , PRIMARY KEY(id))" 
+#define ADMIN_SQLITE_TABLE_SCHEDULER_V1_2_2a "CREATE TABLE scheduler (id INTEGER NOT NULL , interval_ms INTEGER CHECK (interval_ms>=100 AND interval_ms<=100000000) NOT NULL , filename VARCHAR NOT NULL , arg1 VARCHAR , arg2 VARCHAR , arg3 VARCHAR , arg4 VARCHAR , arg5 VARCHAR , comment VARCHAR NOT NULL DEFAULT '' , PRIMARY KEY(id))"
 
-#define ADMIN_SQLITE_TABLE_SCHEDULER_V1_2_2b "CREATE TABLE scheduler (id INTEGER NOT NULL , active INT CHECK (active IN (0,1)) NOT NULL DEFAULT 1 , interval_ms INTEGER CHECK (interval_ms>=100 AND interval_ms<=100000000) NOT NULL , filename VARCHAR NOT NULL , arg1 VARCHAR , arg2 VARCHAR , arg3 VARCHAR , arg4 VARCHAR , arg5 VARCHAR , comment VARCHAR NOT NULL DEFAULT '' , PRIMARY KEY(id))" 
+#define ADMIN_SQLITE_TABLE_SCHEDULER_V1_2_2b "CREATE TABLE scheduler (id INTEGER NOT NULL , active INT CHECK (active IN (0,1)) NOT NULL DEFAULT 1 , interval_ms INTEGER CHECK (interval_ms>=100 AND interval_ms<=100000000) NOT NULL , filename VARCHAR NOT NULL , arg1 VARCHAR , arg2 VARCHAR , arg3 VARCHAR , arg4 VARCHAR , arg5 VARCHAR , comment VARCHAR NOT NULL DEFAULT '' , PRIMARY KEY(id))"
 
 #define ADMIN_SQLITE_TABLE_SCHEDULER_V1_2_2c "CREATE TABLE scheduler (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL , active INT CHECK (active IN (0,1)) NOT NULL DEFAULT 1 , interval_ms INTEGER CHECK (interval_ms>=100 AND interval_ms<=100000000) NOT NULL , filename VARCHAR NOT NULL , arg1 VARCHAR , arg2 VARCHAR , arg3 VARCHAR , arg4 VARCHAR , arg5 VARCHAR , comment VARCHAR NOT NULL DEFAULT '')"
 
@@ -430,7 +430,7 @@ pthread_mutex_t users_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 #define ADMIN_SQLITE_TABLE_RUNTIME_MYSQL_QUERY_RULES "CREATE TABLE runtime_mysql_query_rules (rule_id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL , active INT CHECK (active IN (0,1)) NOT NULL DEFAULT 0 , username VARCHAR , schemaname VARCHAR , flagIN INT NOT NULL DEFAULT 0 , client_addr VARCHAR , proxy_addr VARCHAR , proxy_port INT , digest VARCHAR , match_digest VARCHAR , match_pattern VARCHAR , negate_match_pattern INT CHECK (negate_match_pattern IN (0,1)) NOT NULL DEFAULT 0 , re_modifiers VARCHAR , flagOUT INT , replace_pattern VARCHAR , destination_hostgroup INT DEFAULT NULL , cache_ttl INT CHECK(cache_ttl > 0) , reconnect INT CHECK (reconnect IN (0,1)) DEFAULT NULL , timeout INT UNSIGNED , retries INT CHECK (retries>=0 AND retries <=1000) , delay INT UNSIGNED , next_query_flagIN INT UNSIGNED , mirror_flagOUT INT UNSIGNED , mirror_hostgroup INT UNSIGNED , error_msg VARCHAR , OK_msg VARCHAR , sticky_conn INT CHECK (sticky_conn IN (0,1)) , multiplex INT CHECK (multiplex IN (0,1)) , log INT CHECK (log IN (0,1)) , apply INT CHECK(apply IN (0,1)) NOT NULL DEFAULT 0 , comment VARCHAR)"
 
-#define ADMIN_SQLITE_TABLE_RUNTIME_SCHEDULER "CREATE TABLE runtime_scheduler (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL , active INT CHECK (active IN (0,1)) NOT NULL DEFAULT 1 , interval_ms INTEGER CHECK (interval_ms>=100 AND interval_ms<=100000000) NOT NULL , filename VARCHAR NOT NULL , arg1 VARCHAR , arg2 VARCHAR , arg3 VARCHAR , arg4 VARCHAR , arg5 VARCHAR , comment VARCHAR NOT NULL DEFAULT '')" 
+#define ADMIN_SQLITE_TABLE_RUNTIME_SCHEDULER "CREATE TABLE runtime_scheduler (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL , active INT CHECK (active IN (0,1)) NOT NULL DEFAULT 1 , interval_ms INTEGER CHECK (interval_ms>=100 AND interval_ms<=100000000) NOT NULL , filename VARCHAR NOT NULL , arg1 VARCHAR , arg2 VARCHAR , arg3 VARCHAR , arg4 VARCHAR , arg5 VARCHAR , comment VARCHAR NOT NULL DEFAULT '')"
 
 #define STATS_SQLITE_TABLE_MYSQL_QUERY_RULES "CREATE TABLE stats_mysql_query_rules (rule_id INTEGER PRIMARY KEY , hits INT NOT NULL)"
 #define STATS_SQLITE_TABLE_MYSQL_USERS "CREATE TABLE stats_mysql_users (username VARCHAR PRIMARY KEY , frontend_connections INT NOT NULL , frontend_max_connections INT NOT NULL)"
@@ -1004,7 +1004,7 @@ void ClickHouse_Server_session_handler(MySQL_Session *sess, void *_pa, PtrSize_t
 				run_query=false;
 				goto __run_query;
 			}
-		}	
+		}
 		if (!strncasecmp("SHOW ", query_no_space, 5)) {
 			if (
 				!strncasecmp("SHOW COLUMNS FROM ", query_no_space, 18)
@@ -1267,7 +1267,7 @@ void ClickHouse_Server_session_handler(MySQL_Session *sess, void *_pa, PtrSize_t
 			query_length=strlen(query)+1;
 			free(q);
             run_query_sqlite = true;
-            goto __run_query_sqlite;	
+            goto __run_query_sqlite;
 		}
 		if (
 			(pkt->size==(strlen("select name, type FROM mysql.proc where db='default'")+5) && strncasecmp((char *)"select name, type FROM mysql.proc where db='default'",(char *)pkt->ptr+5,pkt->size-5)==0)
@@ -1279,7 +1279,7 @@ void ClickHouse_Server_session_handler(MySQL_Session *sess, void *_pa, PtrSize_t
 			query_length=strlen(query)+1;
 			free(q);
             run_query_sqlite = true;
-            goto __run_query_sqlite;	
+            goto __run_query_sqlite;
 		}
 		if (
 			(pkt->size==(strlen((char *)"SELECT logfile_group_name FROM information_schema.FILES")+5) && strncasecmp((char *)"SELECT logfile_group_name FROM information_schema.FILES",(char *)pkt->ptr+5,pkt->size-5)==0)
@@ -2060,7 +2060,7 @@ __end_show_commands:
 			goto __run_query;
 		}
 	}
-	
+
 __run_query:
 /*
 	if (run_query) {
@@ -2100,12 +2100,14 @@ __run_query:
 		}
 
 		if (supported_command == false && strncasecmp("INSERT ",query_no_space,7) == 0) {
-			if (strcasestr(query_no_space,"VALUES")==NULL) {
-				if (strcasestr(query_no_space,"SELECT")) {
-					supported_command = true;
-					expected_resultset = false;
-				}
-			}
+      supported_command = true;
+      expected_resultset = false;
+      // if (strcasestr(query_no_space,"VALUES")==NULL) {
+			// 	if (strcasestr(query_no_space,"SELECT")) {
+			// 		supported_command = true;
+			// 		expected_resultset = false;
+			// 	}
+			// }
 		}
 
 		if (supported_command == false && strncasecmp("SET ",query_no_space,4) == 0) {
@@ -2162,7 +2164,7 @@ __run_query:
 			myprot->generate_pkt_ERR(true,NULL,NULL,1,1148,(char *)"42000",(char *)"Command not supported");
 			myds->DSS=STATE_SLEEP;
 		} else {
-		
+
 			try {
 				clickhouse_thread___mysql_sess = sess;
 				//clickhouse_thread___started=false;
@@ -2259,7 +2261,7 @@ __run_query_sqlite: // we are introducing this new section to send some query to
 
 ClickHouse_Session::ClickHouse_Session() {
 	sessdb = new SQLite3DB();
-    sessdb->open((char *)"file:mem_sqlitedb_clickhouse?mode=memory&cache=shared", SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_FULLMUTEX);	
+    sessdb->open((char *)"file:mem_sqlitedb_clickhouse?mode=memory&cache=shared", SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_FULLMUTEX);
 	transfer_started = false;
 	schema_initialized = false;
 }
@@ -2277,7 +2279,7 @@ bool ClickHouse_Session::init() {
 		client = new clickhouse::Client(co);
 		ret=true;
 	} catch (const std::exception& e) {
-		std::cerr << "Connection to ClickHouse failed: " << e.what() << std::endl;	
+		std::cerr << "Connection to ClickHouse failed: " << e.what() << std::endl;
 		ret=false;
 	}
 	connected = ret;
@@ -2573,7 +2575,7 @@ ClickHouse_Server::ClickHouse_Server() {
 	pthread_rwlock_init(&rwlock,NULL);
 
 	SQLite_General_DB = new SQLite3DB();
-    SQLite_General_DB->open((char *)"file:mem_sqlitedb_clickhouse?mode=memory&cache=shared", SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_FULLMUTEX);	
+    SQLite_General_DB->open((char *)"file:mem_sqlitedb_clickhouse?mode=memory&cache=shared", SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE | SQLITE_OPEN_FULLMUTEX);
 	SQLite_General_DB->execute((char *)"CREATE TABLE global_variables (variable_name VARCHAR NOT NULL PRIMARY KEY , variable_value VARCHAR NOT NULL)");
 	SQLite_General_DB->execute((char *)"INSERT INTO global_variables VALUES ('lower_case_table_names','0')");
 	SQLite_General_DB->execute((char *)"INSERT INTO global_variables VALUES ('sql_mode','')");
